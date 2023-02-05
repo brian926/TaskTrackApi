@@ -1,0 +1,12 @@
+@id=00000000-0000-0000-0000-000000000000
+
+PUT http://localhost:5113/tasks/{{id}}
+Content-Type: application/json
+
+{
+    "name": "Make Breakfast 2",
+    "description": "Vegan everything! Make a vegan breakfast..",
+    "startDateTime": "2022-04-08T08:00:00",
+    "endDateTime": "2022-04-08T11:00:00",
+    "reminder": true
+}

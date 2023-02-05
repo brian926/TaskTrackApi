@@ -1,2 +1,4 @@
-GET http://localhost:5113/tasks
+@id=00000000-0000-0000-0000-000000000000
+
+GET http://localhost:5113/tasks/{{id}}
 Content-Type: application/json
