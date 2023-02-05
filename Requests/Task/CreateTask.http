@@ -1,0 +1,10 @@
+POST http://localhost:5113/tasks
+Content-Type: application/json
+
+{
+    "name": "Make Breakfast",
+    "description": "Vegan everything! Make a vegan breakfast..",
+    "startDateTime": "2022-04-08T08:00:00",
+    "endDateTime": "2022-04-08T11:00:00",
+    "reminder": true
+}
