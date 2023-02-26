@@ -1,7 +1,9 @@
-namespace TaskTrackerApi.Services.Tasks
+using TaskTrackerApi.Models;
+namespace TaskTrackerApi.Services.Task
 {
     public interface ITaskService
     {
-        void TaskResponse(Task tasks);
+        void CreateTask(Tasks task);
+        Tasks GetTask(Guid id);
     }
 }

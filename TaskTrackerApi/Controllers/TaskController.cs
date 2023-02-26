@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskTrackerApi.Contracts.Task;
 using TaskTrackerApi.Models;
+using TaskTrackerApi.Services.Task;
 
 namespace TaskTrackerApi.Controllers
 {
@@ -8,10 +9,16 @@ namespace TaskTrackerApi.Controllers
     [Route("[controller]")]
     public class TasksController : ControllerBase
     {
+        private readonly ITaskService _taskSerivce;
+        public TasksController(ITaskService taskService)
+        {
+            _taskSerivce = taskService;
+        }
+
         [HttpPost]
         public IActionResult CreateTask(CreateTaskRequest request)
         {
-            var task = new Tasks(
+            var newTask = new Tasks(
                 Guid.NewGuid(),
                 request.Name,
                 request.Description,
@@ -20,22 +27,25 @@ namespace TaskTrackerApi.Controllers
                 DateTime.UtcNow,
                 request.Reminder);
 
+            _taskSerivce.CreateTask(newTask);
+
             var response = new Tasks(
-                task.Id,
-                task.Name,
-                task.Description,
-                task.StartDateTime,
-                task.EndDateTime,
-                task.LastModifiedDateTime,
-                task.Reminder
+                newTask.Id,
+                newTask.Name,
+                newTask.Description,
+                newTask.StartDateTime,
+                newTask.EndDateTime,
+                newTask.LastModifiedDateTime,
+                newTask.Reminder
             );
 
-            return CreatedAtAction(nameof(GetTask), new { id = task.Id }, value: response);
+            return CreatedAtAction(nameof(GetTask), new { id = newTask.Id }, value: response);
         }
 
         [HttpGet("{id:guid}")]
         public IActionResult GetTask(Guid id)
         {
+            Tasks task = _taskSerivce.GetTask(id);
             return Ok(id);
         }
 
