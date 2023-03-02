@@ -46,19 +46,42 @@ namespace TaskTrackerApi.Controllers
         public IActionResult GetTask(Guid id)
         {
             Tasks task = _taskSerivce.GetTask(id);
-            return Ok(id);
+            var response = new Tasks(
+                task.Id,
+                task.Name,
+                task.Description,
+                task.StartDateTime,
+                task.EndDateTime,
+                task.LastModifiedDateTime,
+                task.Reminder
+            );
+            return Ok(response);
         }
 
         [HttpPut("{id:guid}")]
         public IActionResult UpsertTask(Guid id, UpsertTaskRequest request)
         {
-            return Ok(request);
+            var task = new Tasks(
+                id,
+                request.Name,
+                request.Description,
+                request.StartDateTime,
+                request.EndDateTime,
+                DateTime.UtcNow,
+                request.Reminder
+            );
+
+            _taskSerivce.UpsertTask(task);
+
+            // TODO: return 201 is new task was created
+            return NoContent();
         }
 
         [HttpDelete("{id:guid}")]
         public IActionResult DeleteTask(Guid id)
         {
-            return Ok(id);
+            _taskSerivce.DeleteTask(id);
+            return NoContent();
         }
     }
 }
